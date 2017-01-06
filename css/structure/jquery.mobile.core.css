@@ -50,23 +50,31 @@ div.ui-mobile-viewport {
 	border: 0;
 }
 
-/* Need to make sure things with visibility:visible inside a pag stay hidden */
-.ui-page:not(.ui-page-active) *{
-    visibility: hidden !important;
-}
-.ui-page:not(.ui-page-active) {
-	overflow: hidden;
-	max-height: 100%;
-}
 /* On ios4, setting focus on the page element causes flashing during transitions when there is an outline, so we turn off outlines */
+
 .ui-page {
 	outline: none;
 }
+
+.ui-page:not(.ui-page-active),
+[data-role=page]:not(.ui-page-active) {
+	bottom: 0;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+/* Use !important to override "visibility: visible" for any element inside a non-active page */
+
+.ui-page:not(.ui-page-active) * {
+    visibility: hidden !important;
+}
+
 .ui-mobile .ui-page-active {
 	visibility: visible;
 	overflow: visible;
 	overflow-x: hidden;
 }
+
 @media screen and (orientation: portrait) {
 	.ui-mobile .ui-page {
 		min-height: 420px;
@@ -277,8 +285,7 @@ div.ui-mobile-viewport {
 	height: 22px;
 	line-height: inherit;
 	vertical-align: middle;
-	position: relative;
-	bottom: 2px;
+	margin-top: -2px;
 }
 .ui-widget-icon-block {
 	display: block;
@@ -290,7 +297,6 @@ div.ui-mobile-viewport {
 	text-indent: 100%;
 	white-space: nowrap;
 	overflow: hidden;
-	bottom: auto;
 	top: 50%;
 	left: 50%;
 }
@@ -303,14 +309,12 @@ div.ui-mobile-viewport {
 
 /* Float icons helper classes */
 .ui-widget-icon-floatbeginning {
-	bottom: auto;
 	float: left;
-	margin-right: 1em;
+	margin: 1px 1em 0 0;
 }
 .ui-widget-icon-floatend {
-	bottom: auto;
 	float: right;
-	margin-left: 1em;
+	margin: 1px 0 0 1em;
 }
 
 /* Button elements and input buttons */
@@ -331,7 +335,8 @@ input.ui-button-inline,
 	width: auto;
 }
 /* Firefox adds a 1px border in a button element. We negate this to make sure they have the same height as other buttons in controlgroups. */
-button.ui-button::-moz-focus-inner {
+button.ui-button::-moz-focus-inner,
+input.ui-button::-moz-focus-inner {
 	border: 0;
 }
 button.ui-button-icon-only,
